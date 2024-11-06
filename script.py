@@ -12,3 +12,7 @@ index_writer = IndexWriter(index_directory, index_config)
 
 txt_directory = "full_docs"
 
+# # Start indexing
+# index_docs(txt_directory, index_writer)
+
+# index_writer.close()

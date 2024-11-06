@@ -1,4 +1,5 @@
 from search import search_index
+import pandas as pd
 
 """
 Process a set of queries and save the top 10 results for each query to a CSV file.

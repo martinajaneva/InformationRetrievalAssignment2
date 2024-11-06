@@ -37,7 +37,7 @@ def index_docs(direc_path, index_writer,batch_limit=1000):
         for file_name in os.listdir(direc_path):
             if file_name.endswith(".txt"):
                 file_path = os.path.join(direc_path, file_name)
-                futures.append(pool.submit(add_doc_to_index, file_name, file_path))
+                futures.append(pool.submit(add_doc_to_index, file_name, file_path, index_writer))
             
             if len(futures) % batch_limit == 0:
                 for future in as_completed(futures):

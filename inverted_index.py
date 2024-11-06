@@ -17,7 +17,7 @@ def add_doc_to_index(file_name, path, index_writer):
     with open(path, "r", encoding="utf-8") as file:
         content = file.read()
         doc = Document()
-        doc.add(Field("id", file_name, TextField.TYPE_STORED))
+        doc.add(Field("doc_id", file_name, TextField.TYPE_STORED))
         doc.add(Field("content", content, TextField.TYPE_STORED))
         index_writer.addDocument(doc)
 

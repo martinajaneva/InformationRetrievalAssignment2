@@ -1,17 +1,9 @@
 from inverted_index import index_docs
 import lucene
-from org.apache.lucene.analysis.standard import StandardAnalyzer
-from org.apache.lucene.store import FSDirectory
-from java.nio.file import Paths
-
-lucene.initVM(vmargs=['-Djava.awt.headless=true'])
-index_directory = FSDirectory.open(Paths.get("index"))
-standard_analyzer = StandardAnalyzer()
-index_config = IndexWriterConfig(standard_analyzer)
-index_config.setRAMBufferSizeMB(256.0)
-index_writer = IndexWriter(index_directory, index_config)
-
-txt_directory = "full_docs"
+from search import extract_results
+from search import *
+import pandas as pd
+import os
 
 # # Start indexing
 # index_docs(txt_directory, index_writer)
@@ -43,3 +35,34 @@ def extract_docs_queries(first_row, batch_size, retrieve_docs = False):
             queries_relevant_text[id] = {'query' : query_text}
         
     return queries_relevant_text
+
+
+def initialize():
+    # output = 'results/assignment2_results.csv'
+    # output = 'results/assignment1_results.csv'
+    output = 'results/results.csv'
+    file_exists = os.path.isfile(output)
+
+    first_row = 0
+    batch_size = 99999999
+    # k = [1, 3, 5, 10]
+    k = [3, 10]
+    header_written = not file_exists
+
+    num_query = first_row + 1
+    
+    # Calculate MAP MAR values (Following 2 lines of code should be uncommented for calculation)
+    #    
+    # query_docs = extract_docs_queries(first_row, batch_size, retrieve_docs=True)
+    # process_map_mar(query_docs, num_query, k, output, header_written)
+
+    #############################################################################################
+
+    # Extract results of queries (Following 2 lines of code should be uncommented for calculation)
+    # 
+    query_docs = extract_docs_queries(first_row, batch_size, retrieve_docs=False)
+    extract_results(query_docs, num_query, output, header_written)
+
+
+queries = pd.read_csv('chosen_queries.csv', sep=',', on_bad_lines='skip')
+initialize()

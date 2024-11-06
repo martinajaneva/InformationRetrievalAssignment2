@@ -1,5 +1,5 @@
 from average_functions import avg_precision_at_k, avg_recall_at_k
-from search import search_index
+from search import *
 import pandas as pd
 
 """
@@ -42,7 +42,7 @@ def process_map_mar(query_docs, num_query, k, output, header_written):
     for query, i in query_docs.items():
         detail = i['query']
         print(f"Processing {num_query} query - {detail}")
-        result = search_index(detail)
+        result = search_index(detail, index_directory)
         docs = i['relevant_docs']
 
         print(f"Extracted query results {num_query}")

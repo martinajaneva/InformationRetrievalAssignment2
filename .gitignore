@@ -1,2 +1,5 @@
 docs_small
 index
+__pycache__
+chosen_queries.csv
+results

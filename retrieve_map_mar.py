@@ -1,5 +1,6 @@
 from average_functions import avg_precision_at_k, avg_recall_at_k
 from search import search_index
+import pandas as pd
 
 """
 Calculate Mean Average Precision (MAP) and Mean Average Recall (MAR) at specified ranks (k) for a given set of query results.

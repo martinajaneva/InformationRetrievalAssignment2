@@ -1,3 +1,4 @@
+from inverted_index import index_docs
 import lucene
 from org.apache.lucene.analysis.standard import StandardAnalyzer
 from org.apache.lucene.store import FSDirectory

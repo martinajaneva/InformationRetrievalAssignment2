@@ -7,14 +7,12 @@ from org.apache.lucene.index import IndexWriter, IndexWriterConfig, DirectoryRea
 from org.apache.lucene.search import IndexSearcher
 
 
-lucene.initVM(vmargs=['-Djava.awt.headless=true'])
-index_directory = FSDirectory.open(Paths.get("index"))
-standard_analyzer = StandardAnalyzer()
-index_config = IndexWriterConfig(standard_analyzer)
-index_config.setRAMBufferSizeMB(256.0)
-index_writer = IndexWriter(index_directory, index_config)
-
-txt_directory = "docs_small"
+# lucene.initVM(vmargs=['-Djava.awt.headless=true'])
+# index_directory = FSDirectory.open(Paths.get("index"))
+# standard_analyzer = StandardAnalyzer()
+# index_config = IndexWriterConfig(standard_analyzer)
+# index_config.setRAMBufferSizeMB(256.0)
+# index_writer = IndexWriter(index_directory, index_config)
 
 """
 Parses and processes a query to a format that is suitable for searching.
@@ -31,17 +29,18 @@ def process_query(query, analyzer):
 """
 Searches through the index to match documents to a query string.
 Arguments:
+    analyzer (obj): Contains the specified analyzer method.
     query (str): The given query that is being matched.
     index_directory (str): The directory where the index files are located.
     num_results (int): Maximum number of files to return, default is 10.
 Returns:
     index_results: Searched index results tuple where each tuple contains document_cleaned, the ID of the document and the score.
 """
-def search_index(query, index_directory, num_results=10):
+def search_index(analyzer, query, index_directory, num_results=10):
     index_results = []
 
     index_search = IndexSearcher(DirectoryReader.open(index_directory))
-    matches = index_search.search(process_query(query, standard_analyzer), num_results).scoreDocs
+    matches = index_search.search(process_query(query, analyzer), num_results).scoreDocs
 
     for i in matches:
         found_doc = index_search.doc(i.doc).get("doc_id")

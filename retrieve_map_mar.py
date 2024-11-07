@@ -30,6 +30,7 @@ def find_map_mar(k_values, result, docs, results):
 Process queries to compute and save Mean Average Precision (MAP) and Mean Average Recall (MAR) for each query based on the retrieved results.
 References: https://www.evidentlyai.com/ranking-metrics/mean-average-precision-map
 Arguments:
+    analyzer (obj): Contains the specified analyzer method.
     query_docs (dict): A dictionary where keys are query identifiers and values are dictionaries containing the query details.
     num_query (int): A counter for the number of queries processed.
     k (list): A list of rank positions (k) for which MAP and MAR are calculated.
@@ -38,11 +39,11 @@ Arguments:
 Returns:
     None: The function appends the computed MAP and MAR results to the specified CSV file.
 """
-def process_map_mar(query_docs, num_query, k, output, header_written):
+def process_map_mar(analyzer, query_docs, num_query, k, output, index_directory, header_written):
     for query, i in query_docs.items():
         detail = i['query']
         print(f"Processing {num_query} query - {detail}")
-        result = search_index(detail, index_directory)
+        result = search_index(analyzer, detail, index_directory)
         docs = i['relevant_docs']
 
         print(f"Extracted query results {num_query}")

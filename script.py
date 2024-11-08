@@ -2,6 +2,8 @@ from inverted_index import index_docs
 from org.apache.lucene.store import FSDirectory
 from java.nio.file import Paths
 from org.apache.lucene.analysis.standard import StandardAnalyzer
+from org.apache.lucene.analysis.core import SimpleAnalyzer, WhitespaceAnalyzer
+from org.apache.lucene.analysis.en import EnglishAnalyzer
 from org.apache.lucene.index import IndexWriter, IndexWriterConfig
 from retrieve_map_mar import process_map_mar
 import lucene
@@ -40,6 +42,9 @@ def extract_docs_queries(first_row, batch_size, retrieve_docs = False):
 
 def initialize():
     output = 'results/assignment2_results.csv'
+    # output = 'results/assignment2_whitespaceanalyzer_results.csv'
+    # output = 'results/assignment2_simpleanalyzer_results.csv'
+    # output = 'results/assignment2_englishanalyzer_results.csv'
     # output = 'results/assignment1_results.csv'
     # output = 'results/results.csv'
     file_exists = os.path.isfile(output)
@@ -68,6 +73,10 @@ def initialize():
 lucene.initVM(vmargs=['-Djava.awt.headless=true'])
 index_directory = FSDirectory.open(Paths.get("index"))
 analyzer = StandardAnalyzer()
+# analyzer = WhitespaceAnalyzer()
+# analyzer = SimpleAnalyzer()
+# analyzer = EnglishAnalyzer()
+
 index_config = IndexWriterConfig(analyzer)
 index_config.setRAMBufferSizeMB(256.0)
 index_writer = IndexWriter(index_directory, index_config)
@@ -75,14 +84,14 @@ index_writer = IndexWriter(index_directory, index_config)
 # ===================================================
 # STEP 1: Indexing the files
 # ===================================================
-# # Index the documents of the given directory
-# print("Indexing the documents...")
+# Index the documents of the given directory
+print("Indexing the documents...")
 
-# txt_directory = "full_docs"
-# index_docs(txt_directory, index_writer)
-# index_writer.close()
+txt_directory = "full_docs"
+index_docs(txt_directory, index_writer)
+index_writer.close()
 
-# print("Done indexing the documents!")
+print("Done indexing the documents!")
 
 # ===================================================
 # STEP 2: Evaluating a specific dataset
@@ -91,9 +100,9 @@ index_writer = IndexWriter(index_directory, index_config)
 # queries = pd.read_excel('small_queries/dev_small_queries.xlsx')
 # queries_results = pd.read_csv('small_queries/dev_query_results_small.csv')
 
-# # For all the dev queries (~5K queries)
-# queries = pd.read_table('large_queries/dev_queries.tsv')
-# queries_results = pd.read_csv('large_queries/dev_query_results.csv')
+# For all the dev queries (~5K queries)
+queries = pd.read_table('large_queries/dev_queries.tsv')
+queries_results = pd.read_csv('large_queries/dev_query_results.csv')
 
 # # For selected queries (310 queries)
 # queries = pd.read_csv('large_queries/selected_queries.csv')
